@@ -6,3 +6,7 @@ MAINTAINER Nikita Tarasov <nikita@mygento.ru>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get -qq update && apt-get upgrade -qqy
+
+EXPOSE 80 443
+
+CMD ["nginx", "-g", "daemon off;"]
