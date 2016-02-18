@@ -1,8 +1,6 @@
 FROM mygento/puppet
 
-MAINTAINER Nikita Tarasov <nikita@mygento.ru>
-
-RUN apt-get -qqy install nginx-full
+MAINTAINER nikita@mygento.ru
 
 EXPOSE 80 443
 
