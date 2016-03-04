@@ -9,7 +9,7 @@ build:
     - if [[ $NGINX_PARAM == 'backports' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/true/g module.yaml; fi
     - if [[ $NGINX_PARAM == 'latest' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
     - cat module.yaml
-    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx .
+    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx:$NGINX_PARAM .
   pre_ci_boot:
     image_name: mygento/nginx
     image_tag: $NGINX_PARAM
