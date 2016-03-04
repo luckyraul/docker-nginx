@@ -1,2 +1,25 @@
-script:
-  - true
+env:
+  matrix:
+    - NGINX_PARAM='latest'
+    - NGINX_PARAM='dotdeb'
+    - NGINX_PARAM='backports'
+build:
+  pre_ci:
+    - if [[ $NGINX_PARAM == 'dotdeb' ]]; then sed -i -e s/DOTDEB/true/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
+    - if [[ $NGINX_PARAM == 'backports' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/true/g module.yaml; fi
+    - if [[ $NGINX_PARAM == 'latest' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
+    - cat module.yaml
+    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx .
+  pre_ci_boot:
+    image_name: mygento/nginx
+    image_tag: $NGINX_PARAM
+    pull: false
+  ci:
+     - nginx -v
+  post_ci:
+     - sudo docker push mygento/nginx:$NGINX_PARAM
+
+integrations:
+    hub:
+      - integrationName: Docker
+        type: docker
