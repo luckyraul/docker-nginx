@@ -16,10 +16,11 @@ build:
     pull: false
   ci:
      - nginx -v
-  post_ci:
-     - sudo docker push mygento/nginx:$NGINX_PARAM
+  push:
+     - docker push mygento/nginx:$NGINX_PARAM
 
 integrations:
     hub:
       - integrationName: Docker
         type: docker
+        agent_only: true
