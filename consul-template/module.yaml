@@ -7,6 +7,5 @@ nginx::service_enable: false
 nginx::backports: true
 nginx::dotdeb: false
 
-
-consul_template::service_ensure: 'stopped'
-consul_template::service_enable: false
+consul_template::service_ensure: BACKPORTS
+consul_template::service_enable: DOTDEB
