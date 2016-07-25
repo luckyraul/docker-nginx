@@ -1,0 +1,3 @@
+forge "https://forgeapi.puppetlabs.com"
+mod 'luckyraul/nginx', :git => 'https://github.com/luckyraul/puppet-nginx.git'
+mod 'gdhbashton/consul_template', :git => 'https://github.com/gdhbashton/puppet-consul_template.git'

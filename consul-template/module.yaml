@@ -1,0 +1,12 @@
+classes:
+    - nginx
+    - consul_template
+
+nginx::service_ensure: 'stopped'
+nginx::service_enable: false
+nginx::backports: true
+nginx::dotdeb: false
+
+
+consul_template::service_ensure: 'stopped'
+consul_template::service_enable: false

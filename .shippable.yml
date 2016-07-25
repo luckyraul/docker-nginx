@@ -1,23 +1,31 @@
 env:
   matrix:
-    - NGINX_PARAM='latest'
-    - NGINX_PARAM='dotdeb'
-    - NGINX_PARAM='backports'
+    - NGINX_PARAM='latest' NGINX_CONSUL='.' NGINX_TAG='latest'
+    - NGINX_PARAM='dotdeb' NGINX_CONSUL='.' NGINX_TAG='dotdeb'
+    - NGINX_PARAM='backports' NGINX_CONSUL='.' NGINX_TAG='backports'
+    - NGINX_PARAM='latest' NGINX_CONSUL='consul-template' NGINX_TAG='consul'
+    - NGINX_PARAM='dotdeb' NGINX_CONSUL='consul-template' NGINX_TAG='consul-dotdeb'
+    - NGINX_PARAM='backports' NGINX_CONSUL='consul-template' NGINX_TAG='consul-backports'
 build:
   pre_ci:
     - if [[ $NGINX_PARAM == 'dotdeb' ]]; then sed -i -e s/DOTDEB/true/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
+    - if [[ $NGINX_PARAM == 'dotdeb' ]]; then sed -i -e s/DOTDEB/true/g consul-template/module.yaml;sed -i -e s/BACKPORTS/false/g consul-template/module.yaml; fi
     - if [[ $NGINX_PARAM == 'backports' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/true/g module.yaml; fi
+    - if [[ $NGINX_PARAM == 'backports' ]]; then sed -i -e s/DOTDEB/false/g consul-template/module.yaml;sed -i -e s/BACKPORTS/true/g consul-template/module.yaml; fi
     - if [[ $NGINX_PARAM == 'latest' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
+    - if [[ $NGINX_PARAM == 'latest' ]]; then sed -i -e s/DOTDEB/false/g consul-template/module.yaml;sed -i -e s/BACKPORTS/false/g consul-template/module.yaml; fi
+    - if [[ $NGINX_CONSUL == 'consul-template' ]]; then sed -i -e s/NGINX_PARAM/$NGINX_PARAM/g module.yaml; fi
     - cat module.yaml
-    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx:$NGINX_PARAM .
+    - cat consul-template/module.yaml
+    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx:$NGINX_PARAM $NGINX_CONSUL
   pre_ci_boot:
     image_name: mygento/nginx
-    image_tag: $NGINX_PARAM
+    image_tag: $NGINX_TAG
     pull: false
   ci:
      - nginx -v
   push:
-     - docker push mygento/nginx:$NGINX_PARAM
+     - docker push mygento/nginx:$NGINX_TAG
 
 integrations:
     hub:
