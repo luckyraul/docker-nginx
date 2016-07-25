@@ -18,7 +18,7 @@ build:
     - cat module.yaml
     - cat consul-template/module.yaml
     - cat consul-template/Dockerfile
-    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx:$NGINX_PARAM $NGINX_CONSUL
+    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=mygento/nginx:$NGINX_TAG $NGINX_CONSUL
   pre_ci_boot:
     image_name: mygento/nginx
     image_tag: $NGINX_TAG
