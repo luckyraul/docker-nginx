@@ -4,8 +4,8 @@ classes:
 
 nginx::service_ensure: 'stopped'
 nginx::service_enable: false
-nginx::backports: true
-nginx::dotdeb: false
+nginx::backports: BACKPORTS
+nginx::dotdeb: DOTDEB
 
-consul_template::service_ensure: BACKPORTS
-consul_template::service_enable: DOTDEB
+consul_template::service_ensure: 'stopped'
+consul_template::service_enable: false
