@@ -1,11 +1,11 @@
 FROM mygento/nginx:NGINX_PARAM
 
-ENTRYPOINT ["/usr/bin/s6-svscan","/etc/s6"]
+ENTRYPOINT ["/init"]
 CMD []
 
-RUN wget --quiet -O - https://github.com/just-containers/skaware/releases/download/v1.18.1/execline-2.1.5.0-linux-amd64-bin.tar.gz | tar -C / -zxf -
+RUN wget --quiet -O - https://github.com/just-containers/s6-overlay/releases/download/v1.18.1.3/s6-overlay-amd64.tar.gz | tar -C / -zxf -
 
-COPY s6 /etc/s6/
+ADD root /
 
 ADD Puppetfile /
 RUN librarian-puppet install

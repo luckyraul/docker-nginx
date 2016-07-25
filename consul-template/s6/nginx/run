@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Run consul-template once to populate nginx config
-consul-template -config=/consul-template/config -once
-
-# Pass execution to nginx
-exec nginx
