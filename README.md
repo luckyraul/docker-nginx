@@ -1,4 +1,9 @@
 # docker-nginx
 Docker image for Magento Nginx
 
-[![](https://badge.imagelayers.io/mygento/nginx.svg)](https://imagelayers.io/?images=mygento/nginx)
+Default
+[![](https://images.microbadger.com/badges/image/luckyraul/nginx:latest.svg)](https://microbadger.com/images/luckyraul/nginx:latest)
+
+Dotdeb [![](https://images.microbadger.com/badges/image/luckyraul/nginx:dotdeb.svg)](https://microbadger.com/images/luckyraul/nginx:dotdeb)
+
+Backports [![](https://images.microbadger.com/badges/image/luckyraul/nginx:backports.svg)](https://microbadger.com/images/luckyraul/nginx:backports)

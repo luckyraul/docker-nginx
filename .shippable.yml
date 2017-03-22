@@ -1,24 +1,15 @@
 env:
   matrix:
-    - NGINX_PARAM='latest' NGINX_CONSUL='consul-template' NGINX_TAG='consul'
-    - NGINX_PARAM='dotdeb' NGINX_CONSUL='consul-template' NGINX_TAG='consul-dotdeb'
-    - NGINX_PARAM='backports' NGINX_CONSUL='consul-template' NGINX_TAG='consul-backports'
-    - NGINX_PARAM='latest' NGINX_CONSUL='.' NGINX_TAG='latest'
-    - NGINX_PARAM='dotdeb' NGINX_CONSUL='.' NGINX_TAG='dotdeb'
-    - NGINX_PARAM='backports' NGINX_CONSUL='.' NGINX_TAG='backports'
+    - NGINX_TAG='latest'
+    - NGINX_TAG='dotdeb'
+    - NGINX_TAG='backports'
 build:
   pre_ci:
-    - if [[ $NGINX_PARAM == 'dotdeb' ]]; then sed -i -e s/DOTDEB/true/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
-    - if [[ $NGINX_PARAM == 'dotdeb' ]]; then sed -i -e s/DOTDEB/true/g consul-template/module.yaml;sed -i -e s/BACKPORTS/false/g consul-template/module.yaml; fi
-    - if [[ $NGINX_PARAM == 'backports' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/true/g module.yaml; fi
-    - if [[ $NGINX_PARAM == 'backports' ]]; then sed -i -e s/DOTDEB/false/g consul-template/module.yaml;sed -i -e s/BACKPORTS/true/g consul-template/module.yaml; fi
-    - if [[ $NGINX_PARAM == 'latest' ]]; then sed -i -e s/DOTDEB/false/g module.yaml;sed -i -e s/BACKPORTS/false/g module.yaml; fi
-    - if [[ $NGINX_PARAM == 'latest' ]]; then sed -i -e s/DOTDEB/false/g consul-template/module.yaml;sed -i -e s/BACKPORTS/false/g consul-template/module.yaml; fi
-    - if [[ $NGINX_CONSUL == 'consul-template' ]]; then sed -i -e s/NGINX_PARAM/$NGINX_PARAM/g consul-template/Dockerfile; fi
-    - cat module.yaml
-    - cat consul-template/module.yaml
-    - cat consul-template/Dockerfile
-    - docker build --rm=true --pull=true --force-rm=true --no-cache=true --tag=luckyraul/nginx:$NGINX_TAG $NGINX_CONSUL
+    - apt-get install -qqy ruby
+    - gem install puppet --no-ri --no-rdoc
+    - puppet module install puppetlabs/image_build
+    - sed -ie 's/--show_diff//g' /etc/puppetlabs/code/modules/image_build/templates/Dockerfile.erb
+    - puppet docker build --image-name luckyraul/nginx:$NGINX_TAG
   pre_ci_boot:
     image_name: luckyraul/nginx
     image_tag: $NGINX_TAG
@@ -26,7 +17,7 @@ build:
   ci:
      - nginx -v
   push:
-     - docker push luckyraul/nginx:$NGINX_TAG
+    - docker push luckyraul/nginx:$NGINX_TAG
 
 integrations:
     hub:

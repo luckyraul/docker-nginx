@@ -1,0 +1,10 @@
+---
+classes:
+    - 'nginx'
+
+nginx::service_ensure: 'stopped'
+nginx::service_enable: false
+nginx::backports: false
+nginx::dotdeb: false
+nginx::docker: true
+nginx::daemon_mode: 'off'
