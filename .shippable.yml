@@ -20,6 +20,8 @@ build:
      - nginx -v
   push:
     - docker push luckyraul/nginx:$NGINX_TAG
+    - docker tag luckyraul/nginx:$NGINX_TAG mygento/nginx:$NGINX_TAG
+    - docker push mygento/nginx:$NGINX_TAG
 
 integrations:
     hub:

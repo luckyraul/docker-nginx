@@ -1,1 +1,2 @@
+from: debian:jessie-slim
 image_name: luckyraul/nginx:dotdeb
