@@ -5,4 +5,3 @@ classes:
 nginx::service_ensure: 'stopped'
 nginx::service_enable: false
 nginx::backports: BACKPORTS
-nginx::dotdeb: DOTDEB

@@ -1,4 +1,4 @@
-from: debian:stretch-slim
+from: debian:buster-slim
 image_name: luckyraul/nginx
 cmd: nginx
 maintainer: nikita@mygento.ru
