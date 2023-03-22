@@ -14,7 +14,6 @@ jobs:
       matrix:
         version:
           - 'bullseye'
-          - 'bookworm'
     steps:
       - uses: actions/checkout@v2
 
@@ -67,3 +66,22 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID
           docker push $IMAGE_ID
+
+  post_build:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete untagged ghcr LR
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v2
+        with:
+          token: ${{ secrets.CR_PAT }}
+          repository_owner: ${{ github.repository_owner }}
+          owner_type: user
+          package_name: nginx
+      - name: Delete untagged ghcr Mygento
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v2
+        with:
+          token: ${{ secrets.CR_PAT }}
+          repository_owner: mygento
+          owner_type: org
+          package_name: nginx
