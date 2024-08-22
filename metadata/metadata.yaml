@@ -1,7 +1,8 @@
 from: debian:bullseye-slim
 image_name: luckyraul/nginx
 cmd: nginx
-maintainer: nikita@mygento.ru
+maintainer: nikita@mygento.com
+image_user: 'www-data'
 expose: 80 443
 inventory: false
 entrypoint: '/entrypoint.sh'

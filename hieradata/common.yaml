@@ -9,3 +9,4 @@ nginx::dotdeb: false
 nginx::docker: true
 nginx::worker_connections: 2048
 nginx::daemon_mode: 'off'
+nginx::daemon_pid: '/tmp/nginx.pid'
