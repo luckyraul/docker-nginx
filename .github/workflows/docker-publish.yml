@@ -15,7 +15,7 @@ jobs:
         version:
           - 'bullseye'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Test Ruby Version
         run: ruby -v
@@ -36,7 +36,7 @@ jobs:
         run: docker run --rm luckyraul/nginx:${{ matrix.version }} nginx -v
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -72,16 +72,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete untagged ghcr LR
-        uses: Chizkiyahu/delete-untagged-ghcr-action@v3
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v6
         with:
           token: ${{ secrets.CR_PAT }}
           repository_owner: ${{ github.repository_owner }}
           owner_type: user
           package_name: nginx
       - name: Delete untagged ghcr Mygento
-        uses: Chizkiyahu/delete-untagged-ghcr-action@v3
+        uses: Chizkiyahu/delete-untagged-ghcr-action@v6
         with:
           token: ${{ secrets.CR_PAT }}
           repository_owner: mygento
           owner_type: org
           package_name: nginx
+          repository: ''
